@@ -2,6 +2,8 @@
 
 This repository contains my solutions to the programming exercises of the [machine learning course] on Coursera written in plain Python.
 
+![motivation_pic](machine-learning-ex1/ex1-python/ex1.png)
+
 
 About the author
 ----------------
