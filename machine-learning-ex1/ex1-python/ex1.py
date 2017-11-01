@@ -24,10 +24,16 @@
 #
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 def warmUpExercise():
     return np.identity(5)
 
+def plotData(X,y):
+    plt.plot(X,y,'rx')
+    plt.xlabel('Population of City in 10,000s')
+    plt.ylabel('Profit in $10,000s')
+    plt.show()
 
 ## ==================== Part 1: Basic Function ====================
 # Complete warmUpExercise.py
@@ -38,18 +44,17 @@ print( warmUpExercise() )
 input("Press Enter to continue...")
 
 
-#%% ======================= Part 2: Plotting =======================
-#fprintf('Plotting Data ...\n')
-#data = load('ex1data1.txt');
-#X = data(:, 1); y = data(:, 2);
-#m = length(y); % number of training examples
+## ======================= Part 2: Plotting =======================
+print('Plotting Data ...\n')
+data = np.loadtxt('ex1data1.txt')
+X = data[:, 0]
+y = data[:, 1]
+m = len(y)  # number of training examples
 
-#% Plot Data
-#% Note: You have to complete the code in plotData.m
-#plotData(X, y);
+# Plot Data
+plotData(X, y)
 
-#fprintf('Program paused. Press enter to continue.\n');
-#pause;
+input("Press Enter to continue...")
 
 #%% =================== Part 3: Cost and Gradient descent ===================
 
