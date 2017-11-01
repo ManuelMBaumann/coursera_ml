@@ -34,15 +34,24 @@ def plotData(X,y):
     plt.xlabel('Population of City in 10,000s')
     plt.ylabel('Profit in $10,000s')
     plt.show()
+    
+def computeCost(X, y, theta):
+    m = len(y) # number of training examples
+    J = 0.0
+    for i in range(m):
+        J = J + (np.dot(theta.T,X[:,i]) - y[i])**2
+    return J/(2.0*m)
+    
+def gradientDescent(X, y, theta, alpha, num_iters):
+    #Initialize some useful values
+    m = len(y) # number of training examples
+    J_history = np.zeros((num_iters, 1))
 
-## ==================== Part 1: Basic Function ====================
-# Complete warmUpExercise.py
-print('Running warmUpExercise ... \n')
-print('5x5 Identity Matrix: \n')
-print( warmUpExercise() )
-
-input("Press Enter to continue...")
-
+    for i in range(num_iters):
+        
+        # Save the cost J in every iteration    
+        J_history[i] = computeCost(X, y, theta)
+    return theta
 
 ## ======================= Part 2: Plotting =======================
 print('Plotting Data ...\n')
@@ -52,42 +61,37 @@ y = data[:, 1]
 m = len(y)  # number of training examples
 
 # Plot Data
-plotData(X, y)
+#plotData(X, y)
 
 input("Press Enter to continue...")
 
-#%% =================== Part 3: Cost and Gradient descent ===================
+## =================== Part 3: Cost and Gradient descent ===================
 
-#X = [ones(m, 1), data(:,1)]; % Add a column of ones to x
-#theta = zeros(2, 1); % initialize fitting parameters
+X = np.ones((2,m), dtype=float)
+X[1,:] = data[:,0]              # Add a column of ones to x
+theta = np.zeros((2,1))         # initialize fitting parameters
 
-#% Some gradient descent settings
-#iterations = 1500;
-#alpha = 0.01;
+# Some gradient descent settings
+iterations = 1500
+alpha = 0.01
 
-#fprintf('\nTesting the cost function ...\n')
-#% compute and display initial cost
-#J = computeCost(X, y, theta);
-#fprintf('With theta = [0 ; 0]\nCost computed = %f\n', J);
-#fprintf('Expected cost value (approx) 32.07\n');
+print('\nTesting the cost function ...\n')
+# compute and display initial cost
+J = computeCost(X, y, theta)
+print('With theta = [0 ; 0]\nCost computed = ', J)
+print('Expected cost value (approx) 32.07\n')
 
-#% further testing of the cost function
-#J = computeCost(X, y, [-1 ; 2]);
-#fprintf('\nWith theta = [-1 ; 2]\nCost computed = %f\n', J);
-#fprintf('Expected cost value (approx) 54.24\n');
+input("Press Enter to continue...")
 
-#fprintf('Program paused. Press enter to continue.\n');
-#pause;
+print('\nRunning Gradient Descent ...\n')
+# run gradient descent
+theta = gradientDescent(X, y, theta, alpha, iterations)
 
-#fprintf('\nRunning Gradient Descent ...\n')
-#% run gradient descent
-#theta = gradientDescent(X, y, theta, alpha, iterations);
-
-#% print theta to screen
-#fprintf('Theta found by gradient descent:\n');
-#fprintf('%f\n', theta);
-#fprintf('Expected theta values (approx)\n');
-#fprintf(' -3.6303\n  1.1664\n\n');
+# print theta to screen
+print('Theta found by gradient descent:\n')
+print('\n', theta)
+print('Expected theta values (approx)\n')
+print(' -3.6303\n  1.1664\n\n')
 
 #% Plot the linear fit
 #hold on; % keep previous plot visible
