@@ -11,7 +11,7 @@ Usage
 | Excer. | Usage | Dependencies | Topics |
 |---|---|---|---|
 | # 1  | Run `python3 ex1.py` | numpy, matplotlib, `ex1data1.txt`  | linear regression, gradient descent |
-| # 2  | Run `python3 ex2.py` | numpy, matplotlib, `ex2data1.txt`  | logistic regression |
+| # 2  | Run `python3 ex2.py` | numpy, matplotlib, scipy.optimize, `ex2data1.txt`  | logistic regression |
 
 
 
