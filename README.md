@@ -8,9 +8,9 @@ This repository contains my solutions to the programming exercises of the [machi
 Usage
 -----
 
-| excer. | usage | dependencies |
-|---|---|---|
-| # 1  | `python3 ex1.py` | numpy, matplotlib, `ex1data1.txt`  |
+| excer. | usage | dependencies | topics |
+|---|---|---|---|
+| # 1  | `python3 ex1.py` | numpy, matplotlib, `ex1data1.txt`  | linear regression |
 
 
 About the author
