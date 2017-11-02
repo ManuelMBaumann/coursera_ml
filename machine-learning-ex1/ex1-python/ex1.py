@@ -25,6 +25,8 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D
 
 def warmUpExercise():
     return np.identity(5)
@@ -102,44 +104,46 @@ plt.legend(['Training data', 'Linear regression'], loc='lower right')
 plt.show()
 
 # Predict values for population sizes of 35,000 and 70,000
-predict1 = np.array([1, 3.5])*theta
+predict1 = np.dot(np.array([1, 3.5]),theta)
 print('For population = 35,000, we predict a profit of \n', predict1*10000)
-predict2 = np.aray([1, 7])*theta
+predict2 = np.dot(np.array([1, 7]),theta)
 print('For population = 70,000, we predict a profit of \n', predict2*10000)
 
 input("Press Enter to continue...")
 
-#%% ============= Part 4: Visualizing J(theta_0, theta_1) =============
-#fprintf('Visualizing J(theta_0, theta_1) ...\n')
+## ============= Part 4: Visualizing J(theta_0, theta_1) =============
+print('Visualizing J(theta_0, theta_1) ...\n')
 
-#% Grid over which we will calculate J
-#theta0_vals = linspace(-10, 10, 100);
-#theta1_vals = linspace(-1, 4, 100);
+#Grid over which we will calculate J
+theta0_vals = np.linspace(-10, 10, 100)
+theta1_vals = np.linspace(-1, 4, 100)
 
-#% initialize J_vals to a matrix of 0's
-#J_vals = zeros(length(theta0_vals), length(theta1_vals));
+TH0_vals, TH1_vals = np.meshgrid(theta0_vals, theta1_vals)
 
-#% Fill out J_vals
-#for i = 1:length(theta0_vals)
-    #for j = 1:length(theta1_vals)
-	  #t = [theta0_vals(i); theta1_vals(j)];
-	  #J_vals(i,j) = computeCost(X, y, t);
-    #end
-#end
+# initialize J_vals to a matrix of 0's
+J_vals = np.zeros( (len(theta0_vals), len(theta1_vals)) )
 
+# Fill out J_vals
+for i in range(len(theta0_vals)):
+    for j in range(len(theta1_vals)):
+        t = np.array([theta0_vals[i], theta1_vals[j]])
+        J_vals[i,j] = computeCost(X, y, t)
 
-#% Because of the way meshgrids work in the surf command, we need to
-#% transpose J_vals before calling surf, or else the axes will be flipped
-#J_vals = J_vals';
-#% Surface plot
-#figure;
-#surf(theta0_vals, theta1_vals, J_vals)
-#xlabel('\theta_0'); ylabel('\theta_1');
+J_vals = J_vals.T
+# Surface plot
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(TH0_vals, TH1_vals, J_vals, cmap=cm.coolwarm,)
+plt.xlabel('theta_0')
+plt.ylabel('theta_1')
+plt.title('Objective function')
+plt.show()
 
-#% Contour plot
-#figure;
-#% Plot J_vals as 15 contours spaced logarithmically between 0.01 and 100
-#contour(theta0_vals, theta1_vals, J_vals, logspace(-2, 3, 20))
-#xlabel('\theta_0'); ylabel('\theta_1');
-#hold on;
-#plot(theta(1), theta(2), 'rx', 'MarkerSize', 10, 'LineWidth', 2);
+# Contour plot
+# Plot J_vals as 15 contours spaced logarithmically between 0.01 and 100
+plt.contour(theta0_vals, theta1_vals, J_vals, np.logspace(-2, 3, 20))
+plt.xlabel('theta_0')
+plt.ylabel('theta_1')
+plt.title('Location of minimum')
+plt.plot(theta[0], theta[1], 'rx', mew=2, ms=8)
+plt.show()
