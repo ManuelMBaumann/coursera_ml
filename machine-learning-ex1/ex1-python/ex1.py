@@ -43,14 +43,14 @@ def computeCost(X, y, theta):
     return J/(2.0*m)
     
 def gradientDescent(X, y, theta, alpha, num_iters):
-    #Initialize some useful values
     m = len(y) # number of training examples
-    J_history = np.zeros((num_iters, 1))
-
-    for i in range(num_iters):
-        
-        # Save the cost J in every iteration    
-        J_history[i] = computeCost(X, y, theta)
+    for it in range(num_iters):
+        tmp = 0*theta
+        for i in range(m):
+            for j in range(len(theta)):
+                tmp[j] = tmp[j] + (np.dot(theta.T,X[:,i])-y[i])*X[j,i]
+        theta = theta - alpha/m*tmp
+        #print(computeCost(X, y, theta))
     return theta
 
 ## ======================= Part 2: Plotting =======================
@@ -61,7 +61,7 @@ y = data[:, 1]
 m = len(y)  # number of training examples
 
 # Plot Data
-#plotData(X, y)
+plotData(X, y)
 
 input("Press Enter to continue...")
 
@@ -93,22 +93,21 @@ print('\n', theta)
 print('Expected theta values (approx)\n')
 print(' -3.6303\n  1.1664\n\n')
 
-#% Plot the linear fit
-#hold on; % keep previous plot visible
-#plot(X(:,2), X*theta, '-')
-#legend('Training data', 'Linear regression')
-#hold off % don't overlay any more plots on this figure
+## Plot the linear fit
+plt.plot(X[1,:],y, 'rx')
+plt.xlabel('Population of City in 10,000s')
+plt.ylabel('Profit in $10,000s')
+plt.plot(X[1,:], np.dot(X.T,theta))
+plt.legend(['Training data', 'Linear regression'], loc='lower right')
+plt.show()
 
-#% Predict values for population sizes of 35,000 and 70,000
-#predict1 = [1, 3.5] *theta;
-#fprintf('For population = 35,000, we predict a profit of %f\n',...
-    #predict1*10000);
-#predict2 = [1, 7] * theta;
-#fprintf('For population = 70,000, we predict a profit of %f\n',...
-    #predict2*10000);
+# Predict values for population sizes of 35,000 and 70,000
+predict1 = np.array([1, 3.5])*theta
+print('For population = 35,000, we predict a profit of \n', predict1*10000)
+predict2 = np.aray([1, 7])*theta
+print('For population = 70,000, we predict a profit of \n', predict2*10000)
 
-#fprintf('Program paused. Press enter to continue.\n');
-#pause;
+input("Press Enter to continue...")
 
 #%% ============= Part 4: Visualizing J(theta_0, theta_1) =============
 #fprintf('Visualizing J(theta_0, theta_1) ...\n')
