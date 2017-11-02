@@ -8,9 +8,11 @@ This repository contains my solutions to the programming exercises of the [machi
 Usage
 -----
 
-| excer. | usage | dependencies | topics |
+| Excer. | Usage | Dependencies | Topics |
 |---|---|---|---|
-| # 1  | `python3 ex1.py` | numpy, matplotlib, `ex1data1.txt`  | linear regression |
+| # 1  | Run `python3 ex1.py` | numpy, matplotlib, `ex1data1.txt`  | linear regression, gradient descent |
+| # 2  | Run `python3 ex2.py` | numpy, matplotlib  | logistic regression |
+
 
 
 About the author
