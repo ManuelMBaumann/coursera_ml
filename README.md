@@ -9,7 +9,7 @@ Usage
 -----
 
 | excer. | usage | dependencies |
-|---|---|---|---|---|
+|---|---|---|
 | # 1  | `python3 ex1.py` | numpy, matplotlib, `ex1data1.txt`  |
 
 
