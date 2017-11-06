@@ -34,6 +34,25 @@ def plotData(X,y):
     plt.ylabel('Exam 2 score')
     plt.legend(['Admitted', 'Not admitted'])
     plt.show()
+
+def plotDecisionBoundary(theta, X, y):
+    # Find Indices of Positive and Negative Examples
+    pos = np.where(y==1)
+    neg = np.where(y==0)
+    plt.plot(X[pos, 0], X[pos, 1], 'k+')
+    plt.plot(X[neg, 0], X[neg, 1], 'yo')
+    
+    if(X.shape[1] <= 3):
+        #Only need 2 points to define a line, so choose two endpoints
+        plot_x = np.array([min(X[:,1])-2,  max(X[:,1])+2])
+        # Calculate the decision boundary line
+        plot_y = (-1./theta[2])*(theta[1]*plot_x + theta[0])
+        plt.plot(plot_x, plot_y)
+    
+    plt.xlabel('Exam 1 score')
+    plt.ylabel('Exam 2 score')
+    plt.legend(['Admitted', 'Not admitted', 'Decision Boundary'])
+    plt.show()
     
 sigmoid = lambda z: 1.0/(1.0+np.exp(-z))
 
@@ -53,7 +72,7 @@ def costFunction_der(theta, X, y):
     return 1.0/m*grad
     
 
-data = data = np.loadtxt('ex2data1.txt')
+data = np.loadtxt('ex2data1.txt')
 X = data[:, :2]
 y = data[:, -1]
 
@@ -107,16 +126,13 @@ input("Press Enter to continue...")
 ##  In this exercise, you will use a built-in function (fminunc) to find the
 ##  optimal parameters theta.
 
-##  Set options for fminunc
-#options = optimset('GradObj', 'on', 'MaxIter', 400);
-
 ##  Run fminunc to obtain the optimal theta
 ##  This function will return theta and the cost 
-#[theta, cost] = ...
-	#fminunc(@(t)(costFunction(t, X, y)), initial_theta, options);
 
-res = minimize()
-
+res = minimize(lambda t: costFunction(t, X, y), initial_theta, method='BFGS', jac=lambda t:costFunction_der(t, X, y), 
+               options={'disp':True, 'maxiter':400})
+cost = res.fun
+theta = res.x
 
 ## Print theta to screen
 print(['Cost at theta found by fminunc: ', cost])
@@ -127,17 +143,7 @@ print('Expected theta (approx):')
 print('-25.161 0.206 0.201')
 
 ## Plot Boundary
-#plotDecisionBoundary(theta, X, y);
-
-## Put some labels 
-#hold on;
-## Labels and Legend
-#xlabel('Exam 1 score')
-#ylabel('Exam 2 score')
-
-## Specified in plot order
-#legend('Admitted', 'Not admitted')
-#hold off;
+plotDecisionBoundary(theta, X, y)
 
 input("Press Enter to continue...")
 
