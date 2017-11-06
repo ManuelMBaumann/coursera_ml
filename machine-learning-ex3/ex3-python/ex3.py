@@ -25,7 +25,7 @@ def load_data(file1, file2):
 
 def displayData(sel):
     m, n = sel.shape
-    example_width  = int(round(np.sqrt(X.shape[1])))
+    example_width  = int(round(np.sqrt(sel.shape[1])))
     example_height = int(n/example_width)    
     display_rows   = int(np.floor(np.sqrt(m)))
     display_cols   = int(np.ceil(m / display_rows))
@@ -39,10 +39,10 @@ def displayData(sel):
             if curr_ex > m:
                 break 
             # Get the max value of the patch
-            max_val = max(abs(X[curr_ex, :]))
-            curr_pic = np.reshape( X[curr_ex, :], (example_height, example_width) )
+            max_val = max(abs(sel[curr_ex, :]))
+            curr_pic = np.reshape( sel[curr_ex, :], (example_height, example_width) )
             display_array[pad+j*(example_height+pad):pad+j*(example_height+pad)+example_height, 
-                          pad+i*(example_width+pad):pad+i*(example_width+pad)+example_width] = curr_pic/max_val
+                          pad+i*(example_width+pad):pad+i*(example_width+pad)+example_width] = curr_pic.T/max_val
             
             curr_ex = curr_ex + 1
             if curr_ex > m:
@@ -67,12 +67,15 @@ num_labels = 10         # 10 labels, from 1 to 10
 print('Loading and Visualizing Data ...')
 
 X, y = load_data('ex3data1_X.txt', 'ex3data1_y.txt') # training data stored in arrays X, y
+
+#plt.plot(X[2,:])
+#plt.show()
 m = X.shape[0]
+
+#print(X.shape)
 
 ## Randomly select 100 data points to display
 rand_indices = np.random.permutation(m)
-
-print(rand_indices[:100])
 sel = X[rand_indices[:100], :]
 displayData(sel)
 
