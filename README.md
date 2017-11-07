@@ -2,9 +2,10 @@
 
 This repository contains my solutions to the programming exercises of the [machine learning course] on Coursera written in plain Python. The exercise descriptions are stored in the respective subfolders.
 
-![motivation_pic](machine-learning-ex1/ex1-python/ex1.png)
-
-<img src="https://openclipart.org/image/2400px/svg_to_png/28580/kablam-Number-Animals-1.png" width="200"/> <img src="https://openclipart.org/download/71101/two.svg" width="300"/>
+<img src="machine-learning-ex1/ex1-python/ex1.png" width="200"/> 
+<img src="machine-learning-ex2/ex2-python/ex2-1.png" width="300"/>
+<img src="machine-learning-ex3/ex3-python/ex3-1.png" width="300"/>
+<img src="machine-learning-ex3/ex3-python/ex3-2.png" width="300"/>
 
 
 Usage
