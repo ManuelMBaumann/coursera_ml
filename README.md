@@ -1,4 +1,4 @@
-# Coursera Machine Learning in plain Python
+# Coursera's Machine Learning in plain Python
 
 This repository contains my solutions to the programming exercises of the [machine learning course] on Coursera written in plain Python. The exercise descriptions are stored in the respective subfolders.
 
