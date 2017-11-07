@@ -32,6 +32,86 @@ def plotData(X,y):
     plt.legend(['y = 1', 'y = 0'])
     plt.show()
 
+def mapFeature(X1, X2, degree=6):
+    m = int((degree+1)*(degree+2)/2)
+    if (X1.ndim == 0):
+        n = 1
+    else:
+        n = X1.shape[0]
+
+    out = np.ones((n,m))
+    k = 0
+    for i in range(1,degree+1):
+        for j in range(i+1):
+            out[:,k+1] = np.multiply(X1**(i-j), X2**j)
+            k = k + 1
+    return out
+
+def plotDecisionBoundary(theta, X, y, lam):
+    # Find Indices of Positive and Negative Examples
+    pos = np.where(y==1)
+    neg = np.where(y==0)
+    plt.plot(X[pos, 1], X[pos, 2], 'k+')
+    plt.plot(X[neg, 1], X[neg, 2], 'yo')
+    
+    if(X.shape[1] <= 3):
+        #Only need 2 points to define a line, so choose two endpoints
+        plot_x = np.array([min(X[:,1])-2,  max(X[:,1])+2])
+        # Calculate the decision boundary line
+        plot_y = (-1./theta[2])*(theta[1]*plot_x + theta[0])
+        plt.plot(plot_x, plot_y)
+    else:
+        # Here is the grid range
+        u = np.linspace(-1, 1.5, 50)
+        v = np.linspace(-1, 1.5, 50)
+        z = np.zeros((len(u),len(v)))
+        # Evaluate z = theta*x over the grid
+        for i in range(len(u)):
+            for j in range(len(v)):
+                z[i,j] = np.dot(mapFeature(u[i], v[j]),theta)
+         
+        # Plot z = 0
+        # Notice you need to specify the range [0, 0]
+        U, V = np.meshgrid(u,v)
+        levels = [0.0]
+        plt.contour(U, V, z.T, levels)
+    
+    #plt.title(['lambda = ', lam])    
+    #plt.xlabel('Microchip Test 1')
+    #plt.ylabel('Microchip Test 2')
+    #plt.legend(['y = 1', 'y = 0', 'Decision boundary'])
+    plt.show()
+    
+sigmoid = lambda z: 1.0/(1.0+np.exp(-z))
+
+def costFunction(theta, X, y, lam):
+    m = len(y)
+    n = len(theta)
+    
+    cost = 0.0
+    for i in range(m):
+        cost = cost + (-y[i]*np.log(sigmoid(np.dot(theta.T,X[i,:]))) - (1-y[i])*np.log(1-sigmoid(np.dot(theta.T,X[i,:]))))
+    reg = 0.0
+    for j in range(1,n):
+        reg = reg + theta[j]**2
+    return 1.0/m*cost + lam/(2*m)*reg
+
+def costFunction_der(theta, X, y, lam):
+    m = len(y)
+    n = len(theta)
+    grad = 0.0*theta
+    for j in range(n):
+        for i in range(m):
+            grad[j] = grad[j] + ( sigmoid(np.dot(theta.T,X[i,:])) -y[i] )*X[i,j]
+        if (j > 0):
+            grad[j] = grad[j]+lam*theta[j]
+    return 1.0/m*grad
+
+def costFunctionReg(theta, X, y, lam):
+    cost = costFunction(theta, X, y, lam)
+    grad = costFunction_der(theta, X, y, lam)
+    return cost, grad
+
 ## Load Data
 #  The first two columns contains the X values and the third column
 #  contains the label (y).
@@ -41,17 +121,6 @@ X = data[:, :2]
 y = data[:, -1]
 
 plotData(X, y)
-
-## Put some labels
-#hold on;
-
-## Labels and Legend
-#xlabel('Microchip Test 1')
-#ylabel('Microchip Test 2')
-
-## Specified in plot order
-#legend('y = 1', 'y = 0')
-#hold off;
 
 
 ### =========== Part 1: Regularized Logistic Regression ============
@@ -68,42 +137,41 @@ plotData(X, y)
 
 ## Note that mapFeature also adds a column of ones for us, so the intercept
 ## term is handled
-#X = mapFeature(X(:,1), X(:,2));
+X = mapFeature(X[:,0], X[:,1])
 
 ## Initialize fitting parameters
-#initial_theta = zeros(size(X, 2), 1);
+initial_theta = np.zeros((X.shape[1],1), dtype=float)
 
 ## Set regularization parameter lambda to 1
-#lambda = 1;
+lam = 1
 
 ## Compute and display initial cost and gradient for regularized logistic
 ## regression
-#[cost, grad] = costFunctionReg(initial_theta, X, y, lambda);
+cost, grad = costFunctionReg(initial_theta, X, y, lam)
 
-#fprintf('Cost at initial theta (zeros): #f\n', cost);
-#fprintf('Expected cost (approx): 0.693\n');
-#fprintf('Gradient at initial theta (zeros) - first five values only:\n');
-#fprintf(' #f \n', grad(1:5));
-#fprintf('Expected gradients (approx) - first five values only:\n');
-#fprintf(' 0.0085\n 0.0188\n 0.0001\n 0.0503\n 0.0115\n');
+print(['Cost at initial theta (zeros): ', cost])
+print('Expected cost (approx): 0.693')
+print('Gradient at initial theta (zeros) - first five values only:')
+print([' #f ', grad[:5]])
+print('Expected gradients (approx) - first five values only:')
+print(' 0.0085, 0.0188, 0.0001, 0.0503, 0.0115,')
 
-#fprintf('\nProgram paused. Press enter to continue.\n');
-#pause;
+input("Press Enter to continue...")
 
 ## Compute and display cost and gradient
 ## with all-ones theta and lambda = 10
-#test_theta = ones(size(X,2),1);
-#[cost, grad] = costFunctionReg(test_theta, X, y, 10);
+test_theta = np.ones((X.shape[1],1))
 
-#fprintf('\nCost at test theta (with lambda = 10): #f\n', cost);
-#fprintf('Expected cost (approx): 3.16\n');
-#fprintf('Gradient at test theta - first five values only:\n');
-#fprintf(' #f \n', grad(1:5));
-#fprintf('Expected gradients (approx) - first five values only:\n');
-#fprintf(' 0.3460\n 0.1614\n 0.1948\n 0.2269\n 0.0922\n');
+cost, grad = costFunctionReg(test_theta, X, y, 10.0)
 
-#fprintf('\nProgram paused. Press enter to continue.\n');
-#pause;
+print(['Cost at test theta (with lambda = 10): ', cost])
+print('Expected cost (approx): 3.16')
+print('Gradient at test theta - first five values only:')
+print([' #f ', grad[:5]])
+print('Expected gradients (approx) - first five values only:')
+print(' 0.3460, 0.1614, 0.1948, 0.2269, 0.0922')
+
+input("Press Enter to continue...")
 
 ### ============= Part 2: Regularization and Accuracies =============
 ##  Optional Exercise:
@@ -117,29 +185,18 @@ plotData(X, y)
 ##
 
 ## Initialize fitting parameters
-#initial_theta = zeros(size(X, 2), 1);
+initial_theta = np.zeros((X.shape[1],1))
 
 ## Set regularization parameter lambda to 1 (you should vary this)
-#lambda = 1;
+lam = 0.0
 
-## Set Options
-#options = optimset('GradObj', 'on', 'MaxIter', 400);
+res = minimize(lambda t: costFunction(t, X, y, lam), initial_theta, method='BFGS', jac=lambda t:costFunction_der(t, X, y, lam), 
+               options={'disp':True, 'maxiter':400})
 
-## Optimize
-#[theta, J, exit_flag] = ...
-	#fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
+theta = res.x
 
 ## Plot Boundary
-#plotDecisionBoundary(theta, X, y);
-#hold on;
-#title(sprintf('lambda = #g', lambda))
-
-## Labels and Legend
-#xlabel('Microchip Test 1')
-#ylabel('Microchip Test 2')
-
-#legend('y = 1', 'y = 0', 'Decision boundary')
-#hold off;
+plotDecisionBoundary(theta, X, y, lam)
 
 ## Compute accuracy on our training set
 #p = predict(theta, X);

@@ -39,8 +39,8 @@ def plotDecisionBoundary(theta, X, y):
     # Find Indices of Positive and Negative Examples
     pos = np.where(y==1)
     neg = np.where(y==0)
-    plt.plot(X[pos, 0], X[pos, 1], 'k+')
-    plt.plot(X[neg, 0], X[neg, 1], 'yo')
+    plt.plot(X[pos, 1], X[pos, 2], 'k+')
+    plt.plot(X[neg, 1], X[neg, 2], 'yo')
     
     if(X.shape[1] <= 3):
         #Only need 2 points to define a line, so choose two endpoints
