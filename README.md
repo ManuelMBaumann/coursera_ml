@@ -3,7 +3,7 @@
 This repository contains my solutions to the programming exercises of the [machine learning course] on Coursera written in plain Python. The exercise descriptions are stored in the respective subfolders.
 
 <img src="machine-learning-ex1/ex1-python/ex1.png" width="300" height="300" hspace="20"/> <img src="machine-learning-ex2/ex2-python/ex2-1.png" width="300" height="300"/>
-<img src="machine-learning-ex3/ex3-python/ex3-1.png" width="25" height="250" hspace="20"/> <img src="machine-learning-ex3/ex3-python/ex3-2.png" width="300" height="300"/>
+<img src="machine-learning-ex3/ex3-python/ex3-1.png" width="250" height="250" hspace="20"/> <img src="machine-learning-ex3/ex3-python/ex3-2.png" width="300" height="300"/>
 
 
 Usage
