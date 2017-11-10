@@ -13,7 +13,7 @@ Usage
 |---|---|---|---|
 | # 1  | `ex1.py` | numpy, matplotlib, `ex1data1.txt`  | linear regression, gradient descent |
 | # 2  | `ex2.py`, `pex2-reg.py`  | numpy, matplotlib, scipy.optimize, `ex2data1.txt`  | logistic regression |
-| # 3  | `ex3.py`, `ex3-nn.py` | numpy, matplotlib, `ex3data1_X.txt`, `ex3data1_y.txt` | neural networks |
+| # 3  | `ex3.py`, `ex3-nn.py` | numpy, matplotlib, `ex3data1_X.txt`, `ex3data1_y.txt`, `ex3data1_Th1.txt`, `ex3data1_Th2.txt` | neural networks |
 
 About the author
 ----------------
