@@ -9,11 +9,11 @@ This repository contains my solutions to the programming exercises of the [machi
 Usage
 -----
 
-| Excer. | Usage | Dependencies | Topics |
+| Excer. | Scripts | Dependencies | Topics |
 |---|---|---|---|
-| # 1  | Run `python3 ex1.py` | numpy, matplotlib, `ex1data1.txt`  | linear regression, gradient descent |
-| # 2  | Run `python3 ex2.py`, `python3 ex2-reg.py`  | numpy, matplotlib, scipy.optimize, `ex2data1.txt`  | logistic regression |
-| # 3  | Run `python3 ex3.py`, `python3 ex3-nn.py` | numpy, matplotlib, `ex3data1_X.txt`, `ex3data1_y.txt` | neural networks |
+| # 1  | `ex1.py` | numpy, matplotlib, `ex1data1.txt`  | linear regression, gradient descent |
+| # 2  | `ex2.py`, `pex2-reg.py`  | numpy, matplotlib, scipy.optimize, `ex2data1.txt`  | logistic regression |
+| # 3  | `ex3.py`, `ex3-nn.py` | numpy, matplotlib, `ex3data1_X.txt`, `ex3data1_y.txt` | neural networks |
 
 About the author
 ----------------
