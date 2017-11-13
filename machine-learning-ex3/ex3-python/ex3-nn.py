@@ -57,7 +57,6 @@ print('Loading Saved Neural Network Parameters ...\n')
 ## Load the weights into variables Theta1 and Theta2
 Theta1, Theta2 = load_data('ex3data1_Th1.txt', 'ex3data1_Th2.txt') 
 
-print(Theta1.shape, Theta2.shape)
 
 ### ================= Part 3: Implement Predict =================
 ##  After training the neural network, we would like to use it to predict
