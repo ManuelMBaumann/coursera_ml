@@ -51,7 +51,27 @@ def displayData(sel):
     plt.imshow(display_array, cmap='gray')    
     plt.axis('off')
     plt.show()
-    plt.savefig('ex3-1.png')
+
+sigmoid = lambda z: 1.0/(1.0+np.exp(-z))
+
+def lrCostFunction(theta, X, y, lam):
+    m = len(y)
+    n = len(theta)
+    
+    cost = 0.0
+    tmp = 0.0
+    print(np.dot(X,theta))
+    for i in range(m):
+        cost = cost -y[i]*np.log(sigmoid(np.dot(theta.T,X[i,:]))) 
+        cost = cost -(1-y[i])*np.log(1-sigmoid(np.dot(theta.T,X[i,:])))
+        tmp = tmp + np.dot(theta.T,X[i,:])
+    print(tmp)
+    return 1.0/m*cost
+
+    
+def lrCostFunction_der(theta, X, y, lam):
+    return 1
+
 
 ## Setup the parameters you will use for this part of the exercise
 input_layer_size = 400  # 20x20 Input Images of Digits
@@ -64,15 +84,10 @@ num_labels = 10         # 10 labels, from 1 to 10
 #
 
 # Load Training Data
-print('Loading and Visualizing Data ...')
+print('Loading and Visualizing Data...')
 
 X, y = load_data('ex3data1_X.txt', 'ex3data1_y.txt') # training data stored in arrays X, y
-
-#plt.plot(X[2,:])
-#plt.show()
 m = X.shape[0]
-
-#print(X.shape)
 
 ## Randomly select 100 data points to display
 rand_indices = np.random.permutation(m)
@@ -93,17 +108,20 @@ input("Press Enter to continue...")
 print('Testing lrCostFunction() with regularization')
 
 theta_t = np.array([-2, -1, 1, 2])
-#X_t = [ones(5,1) reshape(1:15,5,3)/10];
-#y_t = ([1;0;1;0;1] >= 0.5);
-lambda_t = 3
-#[J grad] = lrCostFunction(theta_t, X_t, y_t, lambda_t);
+X_t = np.ones((5,4))
+X_t[:,1:4] = np.reshape(np.linspace(1,15,15),(3,5)).T/10.0
+y_t = np.array([1,0,1,0,1])
 
-#print(['Cost: #f', J])
+lambda_t = 3
+J    = lrCostFunction(theta_t, X_t, y_t, lambda_t)
+grad = lrCostFunction_der(theta_t, X_t, y_t, lambda_t)
+
+print(['Cost: #f', J])
 print('Expected cost: 2.534819')
-#fprintf('Gradients:\n');
-#fprintf(' #f \n', grad);
-#fprintf('Expected gradients:\n');
-#fprintf(' 0.146561\n -0.548558\n 0.724722\n 1.398003\n');
+print('Gradients:')
+print([' #f ', grad])
+print('Expected gradients:')
+print(' 0.146561 -0.548558 0.724722 1.398003')
 
 input("Press Enter to continue...")
 
